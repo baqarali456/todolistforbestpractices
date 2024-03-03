@@ -5,13 +5,23 @@ const todolists = document.querySelector("#todolists");
 
 let str = "";
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
-console.log(todos);
+let index;
+let edit = false;
 
 
 
 
 Add.addEventListener('click',()=>{
-    if(Add.innerHTML == "Add"){
+    if(edit){
+        edit = false;
+        Add.innerHTML = "Add"
+       let findData = input.value;
+        todos.splice(index,1,findData)
+        localStorage.setItem("todos",JSON.stringify(todos));
+        showLists();
+        input.value = "";
+    }
+    else{
         todos.push(input.value);
         localStorage.setItem("todos",JSON.stringify(todos));
         showLists()
@@ -43,24 +53,8 @@ const onDelete = (todoitem) =>{
 }
 
 const onEdit = (todoitem) =>{
-    let index = todos.findIndex(todo=>todo == todoitem);
-    console.log(index);
-    
+    edit = true
+     index = todos.findIndex(todo=>todo == todoitem);
     input.value = todos[index];
     Add.innerHTML = "Edit";
-    let findData = todos.find(todo=>todo == input.value);
-    // console.log("outer",findData);
-    
-    
-    Add.addEventListener('click',()=>{
-        if(Add.innerHTML == "Edit"){
-            findData = input.value
-            // console.log("inner",findData);
-            
-            todos.splice(index,1,findData)
-            localStorage.setItem("todos",JSON.stringify(todos));
-            showLists();
-        }
-    })
-    
 }
