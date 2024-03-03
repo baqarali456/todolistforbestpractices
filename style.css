@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.form{
+    /* display: flex; */
+}
+.form #input{
+    padding: 5px 5px;
+}
+.form #Add{
+    padding: 11px 5px;
+    background-color: chocolate;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+#todolists{
+    margin-top: 10px;
+}
+#todolists .item{
+    list-style: none;
+    font-size: 20px;
+    margin: 4px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.item i{
+    cursor: pointer;
+}
+.item #edit{
+    margin-left: 10px;
+}
