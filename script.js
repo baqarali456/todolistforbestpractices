@@ -1,60 +1,59 @@
 const input = document.getElementById("input");
 const Add = document.getElementById("Add");
 const todolists = document.querySelector("#todolists");
-
-
 let str = "";
+
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
-let index;
-let edit = false;
+let index = 0;
+
+const setTodosinLocalStorage = () =>{
+    localStorage.setItem("todos",JSON.stringify(todos))
+}
+
+if(todos){
+    iterate()
+}
+
+    
 
 
 
-
-Add.addEventListener('click',()=>{
-    if(edit){
-        edit = false;
-        Add.innerHTML = "Add"
-       let findData = input.value;
-        todos.splice(index,1,findData)
-        localStorage.setItem("todos",JSON.stringify(todos));
-        showLists();
-        input.value = "";
+Add.addEventListener('click',(e)=>{
+    if(e.target.innerHTML === "Add"){
+        todos.push(input.value);
     }
     else{
-        todos.push(input.value);
-        localStorage.setItem("todos",JSON.stringify(todos));
-        showLists()
-        input.value = "";
+        todos[index] = input.value;
     }
-    
+    setTodosinLocalStorage()
+    iterate();
+    input.value = "";
 });
 
-function showLists(){
+
+function iterate(){
+    str = "";
     if(todos.length > 0){
-        str = "";
         todos.forEach(todo=>{
             str += `<li class="item">${todo}<span ><i onclick="onDelete('${todo}')" class="fa-solid fa-delete-left"></i></span><span id="edit"><i
-            onclick="onEdit('${todo}')" class="fa-regular fa-pen-to-square"></i></span></li>`
+            onclick="onEdit('${todo}')"     class="fa-regular fa-pen-to-square"></i></span></li>`
         });
         todolists.innerHTML = str;
     }
     else{
-        todolists.innerHTML = "Please Add Values"
+        todolists.innerHTML = "<p>No items in Todos</p>"
     }
 }
-showLists()
 
-
-const onDelete = (todoitem) =>{
-  todos = todos.filter(todo=>todo !== todoitem);
-  localStorage.setItem("todos",JSON.stringify(todos));
-  showLists();
+const onDelete = (text) =>{
+  todos = todos.filter(todo=>todo !== text);
+  setTodosinLocalStorage()
+  iterate();
 }
 
-const onEdit = (todoitem) =>{
-    edit = true
-     index = todos.findIndex(todo=>todo == todoitem);
-    input.value = todos[index];
-    Add.innerHTML = "Edit";
+const onEdit = (text) =>{
+  index = todos.findIndex(todo=>todo === text);
+  input.value = todos[index]
+  Add.innerHTML = "Edit";
+  
 }
